@@ -887,20 +887,25 @@ async function fetchTranslation(text, targetLangKey) {
   if (targetLangKey === 'en') return text;
   const targetApiLang = languageMap[targetLangKey].apiLang;
   
-  // Using a free CORS proxy bypasses mobile browser security blocks
-  const targetUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetApiLang}&dt=t&q=${encodeURIComponent(text)}`;
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetApiLang}&dt=t&q=${encodeURIComponent(text)}`;
 
   try {
-    const res = await fetch(proxyUrl);
-    const wrapperData = await res.json();
-    const data = JSON.parse(wrapperData.contents);
-
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Translation network request failed');
+    
+    const data = await res.json();
     if (data && data[0]) {
       let fullText = "";
-      data[0].forEach(part => { if (part[0]) fullText += part[0]; });
+      data[0].forEach(part => { 
+        if (part && part[0]) fullText += part[0]; 
+      });
       return fullText;
     }
+  } catch (e) {
+    console.error("Translation error:", e);
+  }
+  return null;
+}
   } catch (e) {
     console.error("Translation error:", e);
   }
