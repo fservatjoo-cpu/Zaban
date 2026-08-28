@@ -125,7 +125,7 @@
     padding-left: 0.9rem; border-left: 3px solid var(--brass);
   }
   .story-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 600; margin: 0 0 1.3rem; color: #241a0d; }
-  .story-text { line-height: 1.85; font-size: 1.1rem; margin-bottom: 2rem; color: #3a2c1a; user-select: text; cursor: pointer; }
+  .story-text { line-height: 1.85; font-size: 1.1rem; margin-bottom: 2rem; color: #3a2c1a; -webkit-user-select: text; user-select: text; cursor: pointer; }
   
   .divider { border: none; border-top: 1px dashed rgba(44,32,19,0.22); margin: 2.2rem 0; }
   .section-title { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; color: #241a0d; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -896,9 +896,9 @@ function renderStory(ep) {
     </div>
   `;
 
-  const storyEl = document.getElementById('storyText');
-  storyEl.addEventListener('mouseup', handleTextSelection);
-  storyEl.addEventListener('touchend', handleTextSelection);
+ storyEl.addEventListener('mouseup', handleTextSelection);
+storyEl.addEventListener('touchend', () => setTimeout(handleTextSelection, 150));
+document.addEventListener('selectionchange', () => setTimeout(handleTextSelection, 200));
 }
 
 /* ---------------- TRANSLATION & VOICE ENGINE ---------------- */
@@ -1001,15 +1001,26 @@ function stopFullStory() {
 }
 
 function handleTextSelection() {
-  setTimeout(() => {
-    const selection = window.getSelection();
-    const selectedText = selection.toString().trim();
-    if (selectedText.length > 0) {
-      document.getElementById('translateInput').value = selectedText;
+  const selection = window.getSelection();
+  const selectedText = selection ? selection.toString().trim() : '';
+
+  if (selectedText.length > 0) {
+    const inputEl = document.getElementById('translateInput');
+    if (inputEl) {
+      inputEl.value = selectedText;
       triggerTranslation();
     }
-  }, 20);
+  }
 }
+
+   document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('storyContainer');
+  if (container) {
+    container.addEventListener('click', () => {
+      setTimeout(handleTextSelection, 50);
+    });
+  }
+});
 
 async function triggerTranslation() {
   const text = document.getElementById('translateInput').value.trim();
