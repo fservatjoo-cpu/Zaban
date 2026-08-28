@@ -7,6 +7,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+   .exit-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .exit-btn:active {
+    transform: scale(0.95);
+    background-color: #dc2626;
+  }
   :root {
     --ink: #151020;
     --paper: #f5ecd8;
@@ -608,26 +628,6 @@ const arc2Episodes = [
     ]
   }
 ];
-.exit-btn {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  background-color: #ef4444;
-  color: #ffffff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.exit-btn:active {
-  transform: scale(0.95);
-  background-color: #dc2626;
-}
 /* ---------------- 5 STANDALONE STORIES ---------------- */
 const standaloneLibrary = [
   {
@@ -1129,7 +1129,4 @@ loadCurrentStory();
 </script>
 </body>
 </html>
-<!-- EXIT APP BUTTON -->
-<button id="exitAppBtn" class="exit-btn" onclick="exitApp()">
-  ✕ Exit
-</button>
+
