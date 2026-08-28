@@ -210,7 +210,7 @@
 </style>
 </head>
 <body>
-
+<button id="exitAppBtn" class="exit-btn" onclick="exitApp()">✕ Exit</button>
 <header>
   <div class="logo">Lingo<em>Daily</em></div>
   <div class="day-count" id="dayCount">EPISODE 01/10</div>
@@ -1125,7 +1125,18 @@ function recordAttempt(i){
   recognition.start();
 }
 
-loadCurrentStory();
+function exitApp() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  window.getSelection().removeAllRanges();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+    window.location.href = window.location.origin + window.location.pathname;
+  } else {
+    window.location.hash = '#home';
+  }
+}
+   loadCurrentStory();
 </script>
 </body>
 </html>
