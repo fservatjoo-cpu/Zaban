@@ -906,11 +906,6 @@ async function fetchTranslation(text, targetLangKey) {
   }
   return null;
 }
-  } catch (e) {
-    console.error("Translation error:", e);
-  }
-  return null;
-}
 
 function splitIntoSentences(text) {
   return text.match(/[^.!?]+[.!?]+/g) || [text];
